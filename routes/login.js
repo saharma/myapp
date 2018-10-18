@@ -1,0 +1,66 @@
+
+
+const request = require('request');
+var express = require('express');
+var router = express.Router();
+var session = require('express-session');
+
+let settings = {
+  clientId : 'xcqzmrmdhs',
+  clientSecret : 'vhy0lod2ssttqpofycxshus0v7roes',
+  oAuthUrl : 'https://oauth.wildapricot.org/auth/token'
+
+
+}
+var responseData = {};
+
+var loginData = {
+  username : '',
+  password : ''
+};
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('api-login', { title: 'User Login' });
+});
+
+router.get('/logout', function(req, res, next) {
+  // res.cookie('auth','');
+  res.redirect('/login');
+});
+
+router.post('/', function(req, res, next) {
+  loginData.username = req.body.username;
+  loginData.password = req.body.password;
+  
+  
+  request.post(settings.oAuthUrl, {
+    form: {
+      grant_type: 'password',
+      username : loginData.username,
+      password : loginData.password,
+      scope: 'auto'
+    },
+    headers: {
+       'content-type': 'application/x-www-form-urlencoded',
+       'Accept': 'application/json',
+       "Authorization": "Basic " + new Buffer(settings.clientId+":"+settings.clientSecret).toString('base64')
+     },
+    json: true
+  }, function (err, response, body) {
+    if( err) {
+      console.error(err);
+      res.status(400);
+      res.json({error : "Bad Request"});
+    }
+    else {
+      res.status(200);
+      res.json(body);
+    }
+  })
+
+  });
+
+
+
+module.exports = router;
