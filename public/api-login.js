@@ -1,6 +1,6 @@
 let settings = {
-   clientId : 'ynicj7x4xq',
-   clientSecret : 'xqj4zj0qf3aruwm7z9j2kellbyg40m',
+   clientId : 'xcqzmrmdhs',
+   clientSecret : 'vhy0lod2ssttqpofycxshus0v7roes',
    oAuthUrl : 'https://oauth.wildapricot.org/auth/token'
 
 

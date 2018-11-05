@@ -56,6 +56,31 @@ router.post('/MemberData', function(req, res, next) {
 });
   
 
+router.post('/MemberData', function(req, res, next) {
+  console.log('Member data.')
+  var accessToken = req.body.accessToken;
+  var accountId = req.body.accountId;
+  
+  request.get(`${settings.memberShipUrl}/accounts/${accountId}/membershiplevels`,{
+     headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+      "Authorization": `Bearer ${accessToken}`
+    },
+    json: true,
+  },
+  function( err, response, body) {
+    if( err) {
+      console.error(err);
+      throw err;
+    }
+    else {
+      res.status(200);
+      res.json(body);
+    }
+  });
+});  
+
 router.post('/', function(req, res, next) {
   loginData.username = req.body.username;
   loginData.password = req.body.password;
